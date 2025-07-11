@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:32:30 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/11 17:15:19 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:19:54 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	receive_packet(t_data *data) {
 			return (error_errno(data, "recvfrom"));
 	data->reply_true = 1;
 	addr = inet_ntoa(from.sin_addr);
-	//printf("[addr:%s, prev:%s]", addr, data->previous);
 	if (strcmp(addr, data->previous))
 		printf("(%s) ", addr);
 	free(data->previous);
