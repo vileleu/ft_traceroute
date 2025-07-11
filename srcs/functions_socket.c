@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:32:30 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/11 16:35:51 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:15:19 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static int	receive_packet(t_data *data) {
 			return (error_errno(data, "recvfrom"));
 	data->reply_true = 1;
 	addr = inet_ntoa(from.sin_addr);
+	//printf("[addr:%s, prev:%s]", addr, data->previous);
 	if (strcmp(addr, data->previous))
-		printf("%s ", addr);
+		printf("(%s) ", addr);
 	free(data->previous);
 	if (!(data->previous = strdup(addr)))
 		return (error_perso(data, "ERROR MALLOC"));
@@ -40,7 +41,7 @@ int		send_packet(t_data *data) {
 	int					ret_select = 0;
 
 	timeout.tv_sec = 0;
-	timeout.tv_usec = 100000;
+	timeout.tv_usec = 500000;
 	FD_ZERO(&socks);
 	FD_SET(data->sockfd, &socks);
 	if (sendto(data->sockfd, data->packet, data->packet_size, 0, (struct sockaddr *)&data->dst, sizeof(data->dst)) < 0)

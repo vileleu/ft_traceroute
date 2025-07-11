@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:38:32 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/10 23:27:27 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:08:55 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		run_traceroute(t_data *data) {
 	while (data->ttl <= data->max_ttl && !data->addr_reached) {
 		if ((setsockopt(data->sockfd, IPPROTO_IP, IP_TTL, &data->ttl, sizeof(data->ttl))) < 0)
 			return (error_errno(data, "setsockopt"));
-		printf("%d  ", data->ttl);
+		printf("%2d  ", data->ttl);
 		count = 3;
 		while (count--) {
 			data->reply_true = 0;
@@ -31,6 +31,9 @@ int		run_traceroute(t_data *data) {
 			if (count)
 				printf(" ");
 		}
+		free(data->previous);
+		if (!(data->previous = strdup("")))
+			return (error_perso(data, "ERROR MALLOC"));
 		printf("\n");
 		data->ttl++;
 	}
