@@ -6,7 +6,7 @@
 #    By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/26 14:12:47 by vileleu           #+#    #+#              #
-#    Updated: 2025/06/02 16:44:35 by vileleu          ###   ########.fr        #
+#    Updated: 2025/07/02 22:01:51 by vileleu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ DIR_DEPS 	= dependencies
 DIR_LIBS	= libraries
 #DIR_LIBFT	= $(DIR_LIBS)/libft
 
-SRCS		=	main.c
+SRCS		=	main.c functions_data.c parse.c \
+				functions_socket.c error.c utils.c
 
 INCS		= -I $(DIR_INCS) #-I $(DIR_LIBFT)/$(DIR_INCS)
 OBJS 		= $(patsubst %.c,$(DIR_OBJS)/%.o,$(SRCS))
@@ -35,7 +36,7 @@ DEPS 		= $(patsubst $(DIR_OBJS)/%.o,$(DIR_DEPS)/%.d,$(OBJS))
 
 NAME		= ft_traceroute
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
 OFLAGS		= -MMD -MP
 RM			= rm -rf
 MKDIR		= $(shell mkdir -p $(DIR_OBJS) $(DIR_DEPS))
