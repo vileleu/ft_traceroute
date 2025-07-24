@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:39:24 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/10 23:24:02 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/24 14:37:29 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct	s_data {
 	int					addr_reached;
 	int					reply_true;
 	char				*previous;
+	struct timeval		end;
 }				t_data;
 
 /*

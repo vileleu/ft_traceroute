@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:32:30 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/11 17:19:54 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/24 14:42:52 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ static int	receive_packet(t_data *data) {
 
 	if ((recvfrom(data->sockfd, recv_buffer, BUFFER_SIZE, 0, (struct sockaddr *)&from, &from_size)) < 0)
 			return (error_errno(data, "recvfrom"));
+	gettimeofday(&data->end, NULL);
 	data->reply_true = 1;
 	addr = inet_ntoa(from.sin_addr);
-	if (strcmp(addr, data->previous))
-		printf("(%s) ", addr);
+	if (strcmp(addr, data->previous)) {
+		if (print_domain_name(data, addr))
+			return (EXIT_FAILURE);
+		printf(" (%s) ", addr);
+	}
 	free(data->previous);
 	if (!(data->previous = strdup(addr)))
 		return (error_perso(data, "ERROR MALLOC"));
@@ -56,24 +60,20 @@ int		send_packet(t_data *data) {
 
 int		handle_packet(t_data *data) {
 	struct timeval	start;
-	struct timeval	end;
 
 	bzero(&start, sizeof(struct timeval));
-	bzero(&end, sizeof(struct timeval));
+	bzero(&data->end, sizeof(struct timeval));
 	gettimeofday(&start, NULL);
 	if (send_packet(data))
 		return (EXIT_FAILURE);
-	gettimeofday(&end, NULL);
-	timersub(&end, &start, &end);
+	timersub(&data->end, &start, &data->end);
 	if (data->reply_true)
-		printf(" %.3f ms", (float)end.tv_usec / 1000);
+		printf(" %.3f ms", (float)data->end.tv_usec / 1000);
 	return (EXIT_SUCCESS);
 }
 
 int		create_socket(t_data *data) {
 	if ((data->sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 		return (error_errno(data, "socket"));
-	//if ((setsockopt(data->sockfd, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&timeout, sizeof(timeout))) < 0)
-	//	return (error_errno(data, "setsockopt"));
 	return (EXIT_SUCCESS);
 }
