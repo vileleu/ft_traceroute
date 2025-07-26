@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:39:24 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/24 14:37:29 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/26 19:35:52 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 #define START_TTL 1
 #define BUFFER_SIZE 256
+#define BUFFER_SIZE_RECV 64
 
 #define id un.echo.id          // for icmp->id
 #define seq un.echo.sequence   // for icmp->seq
@@ -49,7 +50,7 @@ typedef struct	s_parse {
 
 typedef struct	s_data {
 	struct sockaddr_in	dst;
-	char				*packet;
+	unsigned char		*packet;
 	char				*target;
 	size_t				packet_size;
 	int					packetlen;
@@ -96,7 +97,6 @@ int		error_perso(t_data *data, char *s);
 
 void			free_data(t_data **data);
 int				print_domain_name(t_data *data, char *addr);
-int				print_ip(t_data *data, char *addr);
 int				check_atoi(char *s);
 unsigned short	get_checksum(unsigned short *packet, size_t size);
 

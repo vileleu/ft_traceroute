@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 21:55:21 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/10 23:23:50 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:24:47 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,6 @@ int		print_domain_name(t_data *data, char *addr) {
 	}
 	else
 		printf("%s", s);
-	return (EXIT_SUCCESS);
-}
-
-int		print_ip(t_data *data, char *addr) {
-	char		s[BUFFER_SIZE];
-	struct addrinfo	hints, *res;
-	int				ret;
-
-	bzero(&hints, sizeof(struct addrinfo));
-	hints.ai_family = AF_INET;
-	if ((ret = getaddrinfo(addr, NULL, &hints, &res))) {
-		sprintf(s, "getaddrinfo: %s\n", gai_strerror(ret));
-		return (error_perso(data, s));
-	}
-	printf ("%s", inet_ntoa((*(struct sockaddr_in *)res->ai_addr).sin_addr));
-	freeaddrinfo(res);
 	return (EXIT_SUCCESS);
 }
 

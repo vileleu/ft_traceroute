@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:38:32 by vileleu           #+#    #+#             */
-/*   Updated: 2025/07/11 17:08:55 by vileleu          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:23:33 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int		run_traceroute(t_data *data) {
 	int		count = 0;
 
 	printf("ft_traceroute to %s (", data->target);
-	if (print_ip(data, data->target))
-		return (EXIT_FAILURE);
+	printf("%s", inet_ntoa(data->dst.sin_addr));
 	printf("), %d hops max, %d byte packets\n", data->max_ttl, (int)(data->packet_size + sizeof(struct ip)));
 	while (data->ttl <= data->max_ttl && !data->addr_reached) {
 		if ((setsockopt(data->sockfd, IPPROTO_IP, IP_TTL, &data->ttl, sizeof(data->ttl))) < 0)
